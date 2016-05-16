@@ -1,0 +1,1 @@
+<h1>New template</h1>
