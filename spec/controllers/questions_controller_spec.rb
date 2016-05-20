@@ -69,7 +69,6 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-<<<<<<< HEAD
 
    describe 'PATCH #update' do
     context 'valid attributes' do
@@ -105,6 +104,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-=======
->>>>>>> master
 end
