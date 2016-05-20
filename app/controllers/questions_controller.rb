@@ -1,5 +1,9 @@
 class QuestionsController < ApplicationController
+<<<<<<< HEAD
+  before_action :load_question, only: [:show, :edit, :update]
+=======
   before_action :load_question, only: [:show, :edit]
+>>>>>>> master
   def index
   	@questions = Question.all
   end
@@ -25,6 +29,18 @@ class QuestionsController < ApplicationController
     end
   end
 
+<<<<<<< HEAD
+  def update
+    if @question.update(question_params)
+      redirect_to @question
+    else
+      render :edit
+    end
+  end
+
+
+=======
+>>>>>>> master
   private
 
     def load_question

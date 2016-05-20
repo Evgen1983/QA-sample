@@ -69,4 +69,42 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+<<<<<<< HEAD
+
+   describe 'PATCH #update' do
+    context 'valid attributes' do
+      it 'assings the requested question to @question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes question attributes' do
+        patch :update, id: question, question: { title: 'new title' * 5, body: 'new body' * 10 }
+        question.reload
+        expect(question.title).to eq 'new title' * 5
+        expect(question.body).to eq 'new body' * 10
+      end
+
+      it 'redirects to the updated question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(response).to redirect_to question
+      end
+    end
+
+    context 'invalid attributes' do
+      before { patch :update, id: question, question: { title: 'new title', body: nil} }
+
+      it 'does not change question attributes' do
+        question.reload
+        expect(question.title).to eq 'MyString is not too short'
+        expect(question.body).to eq 'MyText is not too short, because it contains more than 30 characters'
+      end
+
+      it 're-renders edit view' do
+        expect(response).to render_template :edit
+      end
+    end
+  end
+=======
+>>>>>>> master
 end
