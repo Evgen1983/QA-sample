@@ -99,8 +99,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not change question attributes' do
         question.reload
-        expect(question.title).to eq 'MyString is not too short'
-        expect(question.body).to eq 'MyText is not too short, because it contains more than 30 characters'
+        expect(question.title).to eq question[:title]
+        expect(question.body).to eq question[:body]
       end
 
       it 're-renders edit view' do
