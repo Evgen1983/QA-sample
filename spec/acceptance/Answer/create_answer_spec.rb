@@ -15,7 +15,7 @@ feature 'Create answer', %q{
       visit question_path(question)
       expect(page).to have_content 'Answers'
       fill_in 'Your Answer', with: 'text text text text text text text'
-      click_on 'Reply'
+      click_on 'Send'
       expect(page).to have_content 'text text text text text text text'
       expect(current_path).to eq question_path(question)
     end
