@@ -1,6 +1,15 @@
-p Title:
+h3 Title:
 p= @question.title
-p Body:
+h3 Body:
 p= @question.body
 
 p= link_to 'Back', questions_path
+p= link_to 'Edit', edit_question_path
+
+h3 Answers
+== render @question.answers
+- if user_signed_in?
+  div == render "answers/form"
+- else
+  p
+     | You need to sign in or sign up before create answer.
