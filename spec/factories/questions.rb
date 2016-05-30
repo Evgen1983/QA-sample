@@ -8,7 +8,8 @@ FactoryGirl.define do
 
   factory :question do
     title 
-    body  
+    body
+    user  
   end
 
   factory :invalid_question, class: "Question" do

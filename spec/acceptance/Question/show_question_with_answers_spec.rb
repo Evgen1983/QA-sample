@@ -7,7 +7,7 @@ feature 'Browse question with answers on it', %q{
 } do
 
   given!(:question) { create(:question) }
-  given!(:answers) { create_list(:answer, 2, question: question) }
+  given!(:answers) { create_pair(:answer, question: question) }
 
   scenario 'Show question' do
    

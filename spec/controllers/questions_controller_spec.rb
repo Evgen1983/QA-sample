@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
 	describe 'GET #index' do
-	  let(:questions) { create_list(:question, 2) }
+	  let(:questions) { create_pair(:question) }
 	  before { get :index }
 	  it 'populates an array of all questions' do
 	  	expect(assigns(:questions)).to eq Question.all
@@ -106,6 +107,19 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders edit view' do
         expect(response).to render_template :edit
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { question }
+
+    it 'deletes question' do
+      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+    end
+
+    it 'redirect to index view' do
+      delete :destroy, id: question
+      expect(response).to redirect_to questions_path
     end
   end
 end

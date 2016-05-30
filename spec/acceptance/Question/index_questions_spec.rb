@@ -6,7 +6,7 @@ feature 'User can browse index of questions', %q{
 	I want to be able to browse list of questions, choose question and click on it
  }do
   
-  given!(:questions) { create_list(:question, 2) }
+  given!(:questions) { create_pair(:question) }
 
   scenario 'Any user can choose any question' do
     visit questions_path
