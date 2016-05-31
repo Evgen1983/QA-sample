@@ -11,8 +11,9 @@ feature 'Delete question', %q{
     
     scenario "Authenticated user try to delete his question" do
       sign_in(users[0])
+      question
       visit question_path(question)
-      click_on 'Delete'
+      click_on 'Delete Question'
 
     expect(page).to have_content "Your question successfully destroyed."
     expect(current_path).to eq questions_path

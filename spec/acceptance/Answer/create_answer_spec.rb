@@ -5,7 +5,7 @@ feature 'Create answer', %q{
   As an authenticated user
   I want to be able to create answer 
 } do
-    given!(:question) { create(:question) }
+    given(:question) { create(:question) }
     given(:user) { create(:user)}
     
 
@@ -14,6 +14,7 @@ feature 'Create answer', %q{
       sign_in(user)
       visit question_path(question)
       expect(page).to have_content 'Answers'
+      click_on 'Your Answer'
       fill_in 'Your Answer', with: 'text text text text text text text'
       click_on 'Send'
       expect(page).to have_content 'text text text text text text text'
