@@ -4,7 +4,7 @@ RSpec.describe AnswersController, type: :controller do
 
   let(:question) { create :question }
   let(:answer) { create(:answer) }
-  
+
   describe 'GET #new' do
     sign_in_user
     before { get :new, question_id: question }
@@ -20,7 +20,13 @@ RSpec.describe AnswersController, type: :controller do
   
   describe 'GET #edit' do
     sign_in_user
+    let(:answer) { create(:answer, user: @user) }
     before { get :edit, id: answer }
+    
+    it 'expect the requested answer to @user' do
+      expect(@user.id).to eq answer.user_id
+    end
+
     it 'assings the requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
     end
