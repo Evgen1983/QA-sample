@@ -39,14 +39,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     sign_in_user
     before { get :edit, id: question }
-    let(:question) { create(:question, user: @user) }
     
     it 'assings the requested question to @question' do
       expect(assigns(:question)).to eq question
-    end
-
-    it 'expect the requested question to @user' do
-      expect(@user.id).to eq question.user_id
     end
 
     it 'renders edit view' do
@@ -59,11 +54,13 @@ RSpec.describe QuestionsController, type: :controller do
     context 'with valid attributes' do
       it 'saves the new question in the database' do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        expect(assigns(:question).user_id).to eq @user.id
       end
 
       it 'redirects to show view' do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))
+        expect(assigns(:question).user_id).to eq @user.id
       end
     end
 

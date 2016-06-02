@@ -20,15 +20,10 @@ RSpec.describe AnswersController, type: :controller do
   
   describe 'GET #edit' do
     sign_in_user
-    let(:answer) { create(:answer, user: @user) }
     before { get :edit, id: answer }
-    
-    it 'expect the requested answer to @user' do
-      expect(@user.id).to eq answer.user_id
-    end
 
     it 'assings the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
+      expect(assigns(:answer)).to eq answer  
     end
 
     it 'renders edit view' do
@@ -40,12 +35,14 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
     context 'with valid attributes' do
       it 'save the new answer in the database' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(question.answers, :count).by(1)      	
+        expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(question.answers, :count).by(1)
+        expect(assigns(:answer).user_id).to eq @user.id   	
       end
 
       it 'redirect to show view' do
       	post :create, answer: attributes_for(:answer), question_id: question
         expect(response).to redirect_to question_path(assigns(:question))
+        expect(assigns(:answer).user_id).to eq @user.id
       end
     end
 
