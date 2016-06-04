@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
 	describe 'GET #index' do
-	   let(:questions) { create_list(:question, 2) }
+	  let(:questions) { create_pair(:question) }
 	  before { get :index }
 	  it 'populates an array of all questions' do
-	  	expect(assigns(:questions)).to match_array(questions)
+	  	expect(assigns(:questions)).to eq Question.all
 	  end
 	  it 'renders index view' do
 	  	expect(response).to render_template :index
@@ -25,8 +25,9 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     describe 'GET #new' do
-    before { get :new }
-    it 'assigns a new Question to @question' do
+      sign_in_user
+      before { get :new }
+      it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
@@ -36,7 +37,9 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user
     before { get :edit, id: question }
+    
     it 'assings the requested question to @question' do
       expect(assigns(:question)).to eq question
     end
@@ -47,9 +50,14 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
     context 'with valid attributes' do
       it 'saves the new question in the database' do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+      end
+
+      it 'associate question to user and save in db'do
+        expect { post :create, question: attributes_for(:question) }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -69,9 +77,9 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-<<<<<<< HEAD
 
    describe 'PATCH #update' do
+    sign_in_user
     context 'valid attributes' do
       it 'assings the requested question to @question' do
         patch :update, id: question, question: attributes_for(:question)
@@ -96,8 +104,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not change question attributes' do
         question.reload
-        expect(question.title).to eq 'MyString is not too short'
-        expect(question.body).to eq 'MyText is not too short, because it contains more than 30 characters'
+        expect(question.title).to eq question[:title]
+        expect(question.body).to eq question[:body]
       end
 
       it 're-renders edit view' do
@@ -105,6 +113,35 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-=======
->>>>>>> master
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+    context "author try to delete question" do
+    let(:question) { create(:question, user: @user) }
+      it 'deletes question' do
+        question
+        expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      end
+
+
+      it 'redirect to index view' do
+        delete :destroy, id: question
+        expect(response).to redirect_to questions_path
+        expect(flash[:notice]).to be_present
+      end
+    end
+
+    context "not the author  try to delete question" do
+      it "doesnt delete question" do
+        question
+        expect { delete :destroy, id: question }.to_not change(Question, :count)
+      end
+
+      it "redirects to index view" do
+        delete :destroy, id: question
+        expect(response).to redirect_to questions_path
+        expect(flash[:notice]).to be_present
+      end
+    end
+  end
 end

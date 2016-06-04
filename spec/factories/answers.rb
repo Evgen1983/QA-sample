@@ -1,14 +1,13 @@
 FactoryGirl.define do
+ 
   factory :answer do
-    body "MyText is not too short, because it contains more than 30 characters"
-<<<<<<< HEAD
-    question nil
+    body "My Answer is not too short, because it contains more than 30 characters"
+    question
+    user
   end
 
   factory :invalid_answer, class: 'Answer' do
     body nil
-=======
->>>>>>> master
     question nil
   end
 end

@@ -22,8 +22,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
 gem 'slim-rails'
+gem 'devise'
+gem 'bootstrap-sass', '~> 3.3.6'
 
 
 # Use ActiveModel has_secure_password
@@ -51,5 +52,7 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda-matchers'	
+  gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy'	
 end

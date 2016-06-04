@@ -1,0 +1,4 @@
+= form_for([@question, @question.answers.build]) do |f|
+  p= f.label :body, 'Your Answer'
+  p= f.text_area :body
+  p= f.submit 'Send'

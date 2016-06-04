@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
   
+  devise_for :users
+  root to: "questions#index"
+
   resources :questions do
-    resources :answers
+    resources :answers, shallow: true
   end
-  
-=======
-  resources :questions
->>>>>>> master
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
