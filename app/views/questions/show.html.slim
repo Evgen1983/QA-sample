@@ -11,7 +11,7 @@ h3 Answers
 .answers
   == render @question.answers
 - if user_signed_in?
-  = link_to 'Your Answer', new_question_answer_path(@question)
+  == render 'answers/form'
 - else
   p
      | You need to sign in or sign up before create answer.

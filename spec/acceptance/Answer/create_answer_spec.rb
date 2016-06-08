@@ -9,12 +9,11 @@ feature 'Create answer', %q{
     given(:user) { create(:user)}
     
 
-    scenario 'Authenticated user create the answer' do
+    scenario 'Authenticated user create the answer', js: true do
      
       sign_in(user)
       visit question_path(question)
       expect(page).to have_content 'Answers'
-      click_on 'Your Answer'
       fill_in 'Your Answer', with: 'text text text text text text text'
       click_on 'Send'
       within '.answers' do
