@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance_helper'
 
 feature 'User can browse index of questions', %q{
 	In order to get necessary question

@@ -41,6 +41,10 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'database_cleaner'
+  gem 'capybara-webkit'
 end
 
 group :development do
@@ -52,9 +56,5 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'launchy'
-  gem 'selenium-webdriver'
-  gem 'database_cleaner'	
+  gem 'shoulda-matchers' 
 end
