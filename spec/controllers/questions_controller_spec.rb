@@ -16,18 +16,22 @@ RSpec.describe QuestionsController, type: :controller do
 	describe 'GET #show'do
 	  before { get :show, id: question }
 	  it 'assings the requested question to @question' do
-        expect(assigns(:question)).to eq question
+      expect(assigns(:question)).to eq question
       end
 
-      it 'renders show view' do
-        expect(response).to render_template :show 
-      end
+    it 'assigns new answer for question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
     end
 
-    describe 'GET #new' do
-      sign_in_user
-      before { get :new }
-      it 'assigns a new Question to @question' do
+    it 'renders show view' do
+      expect(response).to render_template :show 
+    end
+  end
+
+  describe 'GET #new' do
+    sign_in_user
+    before { get :new }
+    it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
 

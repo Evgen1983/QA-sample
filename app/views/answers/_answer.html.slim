@@ -1,5 +1,5 @@
-p= answer.body
-p 
-  - if author_of?(answer)
-    = link_to 'Delete Answer', answer_path(answer, :authenticity_token => form_authenticity_token()), method: :delete, data: { confirm: 'Are You sure?' }
+-@question.answers.each do |answer|
+p= answer.body 
+- if author_of?(answer)
+  = link_to 'Delete Answer', answer_path(answer, :authenticity_token => form_authenticity_token()), method: :delete, data: { confirm: 'Are You sure?' }
 
