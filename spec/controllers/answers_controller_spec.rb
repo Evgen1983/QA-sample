@@ -3,20 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
 
   let(:question) { create :question }
-  let(:answer) { create(:answer) }
-
-  describe 'GET #edit' do
-    sign_in_user
-    before { get :edit, id: answer }
-
-    it 'assings the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer  
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
+  let(:answer) { create :answer, question: question }
 
   describe 'POST #create' do
     sign_in_user
@@ -49,35 +36,27 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #update' do
     sign_in_user
-
-    context 'with valid attributes' do
+    context "author try to update answer" do
+      
       it "assign requested answer to @answers" do
-        patch :update, id: answer, answer: attributes_for(:answer)
+        patch :update, id: answer, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer)).to eq answer
       end
 
+      it 'assigns to question' do
+        patch :update, id: answer, question_id: question, user_id: @user, answer: attributes_for(:answer), format: :js
+        expect(assigns(:question)).to eq question
+      end
+
       it "change answer attributes" do
-        patch :update, id: answer, answer: { body: 'new body' * 10 }
+        patch :update, id: answer, question_id: question, answer: { body: 'new body' * 10 }, format: :js
         answer.reload
         expect(answer.body).to eq 'new body' * 10
       end
 
-        it "redirect to answers question" do
-        patch :update, id: answer, answer: attributes_for(:answer)
-        expect(response).to redirect_to question_path(answer.question)
-      end
-    end
-
-    context 'with invalid attributes' do
-      it "does not change question attributes" do
-        patch :update, id: answer, answer: { body: nil }
-        answer.reload
-        expect(answer.body).to eq answer[:body]
-      end
-
-      it "render edit view" do
-        patch :update, id: answer, answer: { body: nil }
-        expect(response).to render_template :edit
+      it 'render update template' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :update
       end
     end
   end

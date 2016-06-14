@@ -1,12 +1,8 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [ :edit, :create, :update, :destroy]
+  before_action :authenticate_user!, only: [ :create, :update, :destroy]
   before_action :set_question, only: [ :create ]
-  before_action :set_answer, only: [:edit, :update, :destroy]
+  before_action :set_answer, only: [ :update, :destroy]
   
- 
-
-  def edit
-  end
   
   def create
      @answer = @question.answers.create(answer_params)
@@ -15,12 +11,8 @@ class AnswersController < ApplicationController
   end
   
   def update
-    if
-      @answer.update(answer_params)
-      redirect_to question_path(@answer.question)
-    else
-      render :edit
-    end
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy

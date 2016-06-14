@@ -1,5 +1,15 @@
--@question.answers.each do |answer|
-p= answer.body 
-- if author_of?(answer)
-  = link_to 'Delete Answer', answer_path(answer, :authenticity_token => form_authenticity_token()), method: :delete, data: { confirm: 'Are You sure?' }
+div id="answer-#{ answer.id }" class="answer"
+  - if answer.persisted?
+    p= answer.body
+    - if author_of?(answer)
+      p= link_to 'Delete Answer', answer_path(answer, :authenticity_token => form_authenticity_token()), method: :delete, data: { confirm: 'Are You sure?' }
+      p= link_to 'Edit Answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+      p
+        = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+          = f.label :body, "Answer"
+          .answer-edit-errors
+          = f.text_area :body
+          = f.submit 'Save'
+    
+
 
