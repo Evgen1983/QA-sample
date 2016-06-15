@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
 
   let(:question) { create :question }
-  let(:answer) { create :answer, question: question }
+  let(:answer) { create :answer }
 
   describe 'POST #create' do
     sign_in_user
@@ -37,7 +37,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #update' do
     sign_in_user
     context "author try to update answer" do
-      
+      let(:answer) { create(:answer, question: question, user: @user) }
       it "assign requested answer to @answers" do
         patch :update, id: answer, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer)).to eq answer
@@ -58,6 +58,20 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
         expect(response).to render_template :update
       end
+      
+      context 'with invalid attributes' do
+        it 'does not change answer attributes' do
+          patch :update, id: answer, question_id: question, answer: { body: nil }, format: :js
+          answer.reload
+          expect(answer.body).to_not eq nil
+        end
+
+        it 'render update temlate with invalid attributes' do
+          patch :update, id: answer, question_id: question, answer: attributes_for(:invalid_answer), format: :js
+          expect(response).to render_template :update
+        end
+      end
+
     end
   end
 
