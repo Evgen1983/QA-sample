@@ -9,7 +9,7 @@ feature 'Delete answer', %q{
   given(:question) { create(:question, user: users[0]) }
   given(:answer) { create(:answer, question: question, user: users[0]) }
 
-  scenario 'Authenticated user try delete his answer' do
+  scenario 'Authenticated user try delete his answer', js: true do
     sign_in(users[0])
     answer
     visit question_path(question)

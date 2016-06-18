@@ -20,11 +20,6 @@ class AnswersController < ApplicationController
   def destroy
     if author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Your answer successfully destroyed.'
-      redirect_to question_path(@answer.question)
-    else
-      flash[:notice] = "You can't delete question."
-      redirect_to question_path(@answer.question)
     end
   end
 

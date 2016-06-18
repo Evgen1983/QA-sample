@@ -81,27 +81,25 @@ RSpec.describe AnswersController, type: :controller do
     let(:answer) { create(:answer, user: @user) }
       it 'deletes answer' do
         answer
-        expect { delete :destroy, id: answer }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, format: :js }.to change(Answer, :count).by(-1)
       end
 
 
       it 'redirect to question view' do
-        delete :destroy, id: answer
-        expect(response).to redirect_to question_path(answer.question)
-        expect(flash[:notice]).to be_present
+        delete :destroy, id: answer, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
     context "not the author  try to delete answer" do
       it "doesnt delete answer" do
         answer
-        expect { delete :destroy, id: answer }.to_not change(Answer, :count)
+        expect { delete :destroy, id: answer, format: :js }.to_not change(Answer, :count)
       end
 
       it "redirects to question view" do
-        delete :destroy, id: answer
-        expect(response).to redirect_to question_path(answer.question)
-        expect(flash[:notice]).to be_present
+        delete :destroy, id: answer, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

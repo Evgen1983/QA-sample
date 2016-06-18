@@ -18,7 +18,7 @@ feature 'Answer editing', %q{
   end
 
 
-  describe 'Authenticated user' do
+  describe 'Author of answer' do
     before do
       sign_in(users[0])
       visit question_path(question)
