@@ -1,0 +1,8 @@
+<% if @question.errors.present? %>
+  <% @question.errors.full_messages.each do |message| %>
+    $('.question-edit-errors').append('<ul><li><%= j message %></li></ul>');
+  <% end %>
+<% else %>
+  $('<%= "#question-#{ @question.id }" %>').replaceWith('<%= j render partial: "question" %>');
+  $('.question-edit-errors').empty();
+<% end %>
