@@ -6,7 +6,8 @@ div id="answer-#{ answer.id }" class="answer"
     - if author_of?(answer)
       p= link_to 'Delete Answer', answer, :authenticity_token => form_authenticity_token(), remote: true, method: :delete, data: { confirm: 'Are You sure?' }
       p= link_to 'Edit Answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-      p= link_to 'Make the Best', best_answer_path(answer), remote: true, method: :patch
+      -unless answer.best?
+        p= link_to 'Accept as the best Answer', best_answer_path(answer), remote: true, method: :patch
       p
         = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
           = f.label :body, "Answer"

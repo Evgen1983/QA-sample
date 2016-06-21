@@ -104,4 +104,48 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #best_answer' do
+    
+    it "Not Authenticated user can't accept answer as the best " do
+      patch :best_answer, id: answer, question_id: question, answer: { best: true }, format: :js
+      expect(answer.best).to eq false
+    end
+    
+    context "Authenticated user" do
+      sign_in_user
+      let!(:question_1){ create(:question, user: @user) }
+      let!(:answer_1){ create(:answer, question: question_1, user: @user) }
+      let!(:answer_2){ create(:answer, question: question_1, user: @user) }
+     
+      it "can't accept the best answer" do
+        patch :best_answer, id: answer, question_id: question, format: :js
+        expect(answer.best).to eq false
+      end
+
+      it  "and author of the question can accept only one answer as the best" do
+        
+        expect(answer_1.best).to eq false
+        expect(answer_2.best).to eq false
+
+        patch :best_answer, id: answer_1, question_id: question_1, format: :js
+        expect(assigns(:question)).to eq question_1
+        expect(assigns(:answer)).to eq answer_1
+        answer_1.reload
+        
+        expect(answer_1.best).to eq true
+        expect(answer_2.best).to eq false
+
+        patch :best_answer, id: answer_2, question_id: question_1, format: :js
+
+        expect(assigns(:question)).to eq question_1
+        expect(assigns(:answer)).to eq answer_2
+
+        answer_2.reload
+        expect(answer_2.best).to eq true
+        answer_1.reload
+        expect(answer_1.best).to eq false
+      end
+    end
+  end
+
 end
