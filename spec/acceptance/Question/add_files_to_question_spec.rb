@@ -10,7 +10,7 @@ feature 'Add files to question', %q{
 
   background do
     sign_in(user)
-    visit new_question_path
+    visit questions_path
   end
 
   scenario 'User adds file when asks question' do
