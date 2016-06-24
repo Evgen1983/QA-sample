@@ -1,17 +1,15 @@
-h3 Title:
-p= @question.title
-h3 Body:
-p= @question.body
-
-p= link_to 'Back', questions_path
-- if author_of?(@question)
-  = link_to 'Delete Question', question_path(@question, :authenticity_token => form_authenticity_token()), method: :delete, data: { confirm: 'Are You sure?' }
+h2 Question
+= render 'question'
 
 h3 Answers
 .answers
-  == render @question.answers
+  = render @question.answers
 - if user_signed_in?
-  == render 'answers/form'
+  = form_for [@question, @answer], remote: true do |f|
+    = f.label :body, 'Your Answer'
+    .answer-errors
+    = f.text_area :body
+    p= f.submit 'Send'
 - else
   p
      | You need to sign in or sign up before create answer.

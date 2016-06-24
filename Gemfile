@@ -25,6 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.6'
+gem 'jquery-turbolinks'
 
 
 # Use ActiveModel has_secure_password
@@ -41,6 +42,10 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'capybara-webkit'
+  gem 'selenium-webdriver'
 end
 
 group :development do
@@ -52,9 +57,6 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'launchy'
-  gem 'selenium-webdriver'
-  gem 'database_cleaner'	
+  gem 'shoulda-matchers' 
+  gem 'database_cleaner'
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance_helper'
 
 feature 'Create answer', %q{
   In order to help community
@@ -21,6 +21,14 @@ feature 'Create answer', %q{
       end
       expect(current_path).to eq question_path(question)
     end
+
+    scenario 'Authenticated user try to create invalid answer', js: true do
+      sign_in user
+      visit question_path(question)
+      click_on 'Send'
+
+      expect(page).to have_content "Body can't be blank"
+  end
 
     scenario 'Non-authenticated user try to create answer' do
       

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance_helper'
 
 feature 'Browse question with answers on it', %q{
   In order to find answer
