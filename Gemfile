@@ -26,6 +26,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-turbolinks'
+gem 'carrierwave'
 
 
 # Use ActiveModel has_secure_password
