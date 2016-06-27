@@ -3,6 +3,10 @@
     $('.question-edit-errors').append('<ul><li><%= j message %></li></ul>');
   <% end %>
 <% else %>
-  $('<%= "#question-#{ @question.id }" %>').replaceWith('<%= j render partial: "question" %>');
+  <% if remotipart_submitted? %>
+    $('<%= "#question-#{ @question.id }" %>').replaceWith("<%= j "#{render partial: "question"}" %>");
+  <% else %>
+    $('<%= "#question-#{ @question.id }" %>').replaceWith("<%= j render partial: "question" %>");
+  <% end %> 
   $('.question-edit-errors').empty();
 <% end %>

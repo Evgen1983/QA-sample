@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     resources :answers, shallow: true
   end
 
+  resources :attachments, only: :destroy
+
   patch "/answers/best_answer/:id", to: 'answers#best_answer', as: 'best_answer'
 
   # The priority is based upon order of creation: first created -> highest priority.
