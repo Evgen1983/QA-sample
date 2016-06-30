@@ -28,12 +28,13 @@ feature 'Add files to question', %q{
       attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
     end
     click_on 'Create'
-    expect(page).to have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
-    expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
-
-    click_on 'Edit Question'
-
+    
     within '.question' do
+      expect(page).to have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
+      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+
+      click_on 'Edit Question'
+      
       click_on 'Add Attachment'
 
       within all(:css, ".nested-fields").first do
@@ -46,11 +47,12 @@ feature 'Add files to question', %q{
         attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
       end
       click_on 'Save'
-    end
+    
     expect(page).to have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
     expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
     expect(page).to have_link 'favicon.ico', href: '/uploads/attachment/file/3/favicon.ico'
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/4/spec_helper.rb'
+    end
   end
 
   scenario 'Author can delete files', js: true do
