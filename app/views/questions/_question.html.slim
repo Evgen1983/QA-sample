@@ -3,6 +3,10 @@ div id="question-#{ @question.id }" class="question"
   p= @question.title
   h3 Body:
   p= @question.body
+  p Attachments:
+  ul
+    - @question.attachments.each do |a|
+      = render 'attachments/attachment', attachment: a
 
   p= link_to 'Back', questions_path
   - if author_of?(@question)
@@ -15,4 +19,9 @@ div id="question-#{ @question.id }" class="question"
         p= f.text_field :title
         = f.label :body, "Edit Body"
         p= f.text_area :body
+        p Attachments:
+        p
+          .links
+            = link_to_add_association 'Add Attachment', f, :attachments, 
+            partial: 'attachments/fields'
         p= f.submit 'Save'

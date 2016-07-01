@@ -9,6 +9,12 @@ h3 Answers
     = f.label :body, 'Your Answer'
     .answer-errors
     = f.text_area :body
+    p
+      = f.fields_for :attachments do |attachment|
+        = render 'attachments/fields', f: attachment
+      .links
+        = link_to_add_association 'Add Attachment', f, :attachments, 
+        partial: 'attachments/fields'
     p= f.submit 'Send'
 - else
   p

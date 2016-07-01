@@ -3,6 +3,11 @@ div id="answer-#{ answer.id }" class="answer"
     - if answer.best?
       p Best Answer
     p= answer.body
+    p Attachments:
+    ul
+      - answer.attachments.each do |a|
+        = render 'attachments/attachment', attachment: a
+    
     - if author_of?(answer)
       p= link_to 'Delete Answer', answer, :authenticity_token => form_authenticity_token(), remote: true, method: :delete, data: { confirm: 'Are You sure?' }
       p= link_to 'Edit Answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
@@ -13,6 +18,11 @@ div id="answer-#{ answer.id }" class="answer"
           = f.label :body, "Answer"
           .answer-edit-errors
           = f.text_area :body
+          p Attachments:
+          p
+            .links
+              = link_to_add_association 'Add Attachment', f, :attachments, 
+              partial: 'attachments/fields'
           p= f.submit 'Save'
     
 

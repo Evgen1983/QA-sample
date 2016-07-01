@@ -12,7 +12,7 @@ feature 'Create question', %q{
      
       sign_in(user)
       visit questions_path
-      click_on 'Ask question'
+      click_on 'Ask Question'
       fill_in 'Title', with: 'Test question one'
       fill_in 'Body', with: 'text text text text text text text'
       click_on 'Create'
@@ -26,7 +26,7 @@ feature 'Create question', %q{
     scenario 'Non-authenticated user try to create question' do
       
       visit questions_path
-      click_on 'Ask question'
+      click_on 'Ask Question'
 
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
 

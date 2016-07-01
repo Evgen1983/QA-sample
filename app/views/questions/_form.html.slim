@@ -3,4 +3,11 @@
   p= f.text_field :title
   p= f.label :body
   p= f.text_area :body
+  p Attachments:
+  p
+    = f.fields_for :attachments do |attachment|
+      = render 'attachments/fields', f: attachment
+    .links
+      = link_to_add_association 'Add Attachment', f, :attachments, 
+      partial: 'attachments/fields'
   p= f.submit 'Create'
