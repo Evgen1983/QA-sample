@@ -1,9 +1,14 @@
 FactoryGirl.define do
   factory :vote do
-    score 1
-    votable_id 1
-    votable_type "MyString"
-    user nil
-    votable nil
+    user
+    score 0
+
+    trait :up do
+      score 1
+    end
+
+    trait :down do
+      score -1
+    end
   end
 end

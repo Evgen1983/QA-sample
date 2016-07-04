@@ -3,6 +3,12 @@ div id="question-#{ @question.id }" class="question"
   p= @question.title
   h3 Body:
   p= @question.body
+  h3 Raiting for Question:
+  .question_votes
+    = render 'votes/score', votable: @question
+  .question_votesbuttons
+    - if user_signed_in? != author_of?(@question)
+      = render 'votes/buttons', votable: @question
   p Attachments:
   ul
     - @question.attachments.each do |a|
