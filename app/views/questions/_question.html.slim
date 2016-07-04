@@ -3,7 +3,7 @@ div id="question-#{ @question.id }" class="question"
   p= @question.title
   h3 Body:
   p= @question.body
-  h3 Raiting for Question:
+  h3 Rating for Question:
   .question_votes
     = render 'votes/score', votable: @question
   .question_votesbuttons

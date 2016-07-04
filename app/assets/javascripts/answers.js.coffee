@@ -8,17 +8,17 @@ ready = ->
     answer_id = $(this).data('answerId')
     $('form#edit-answer-' + answer_id).show()
 
-  $('.answers .votes_link a').bind 'ajax:success', (e, data, status, xhr) ->
+  $('.answer_votesbuttons').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
-    $('.answers .votes_score').html(response.score)
+    $('.answer_votes').html(response.score)
     if response.status == true
-      $('.answers .votes_link a.vote_link_up').hide()
-      $('.answers .votes_link a.vote_link_down').hide()
-      $('.answers .votes_link a.vote_link_cancel').show()
+      $('.answer_votesbuttons').find('#button_up').attr('disabled',true);
+      $('.answer_votesbuttons').find('#button_down').attr('disabled',true);
+      $('.answer_votesbuttons').find('#button_reset').attr('disabled',false);
     else
-      $('.answers .votes_link a.vote_link_up').show()
-      $('.answers .votes_link a.vote_link_down').show()
-      $('.answers .votes_link a.vote_link_cancel').hide()
+      $('.answer_votesbuttons').find('#button_up').attr('disabled',false);
+      $('.answer_votesbuttons').find('#button_down').attr('disabled',false);
+      $('.answer_votesbuttons').find('#button_reset').attr('disabled',true); 
 $(document).ready(ready) 
 $(document).on('page:load', ready)  
 $(document).on('page:update', ready) 

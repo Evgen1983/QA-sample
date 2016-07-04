@@ -13,7 +13,7 @@ feature 'User can vote', %q{
       visit question_path(question)
 
       within "#question-#{ question.id } " do
-        expect(page).to have_content 'Raiting for Question:'
+        expect(page).to have_content 'Rating for Question:'
       end
 
       within ".question_votesbuttons" do
