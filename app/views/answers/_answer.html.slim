@@ -3,6 +3,12 @@ div id="answer-#{ answer.id }" class="answer"
     - if answer.best?
       p Best Answer
     p= answer.body
+    h3 Rating for Answer:
+    .answer_votes
+      = render 'votes/score', votable: answer
+    .answer_votesbuttons
+      - if user_signed_in? != author_of?(answer)
+        = render 'votes/buttons', votable: answer
     p Attachments:
     ul
       - answer.attachments.each do |a|
