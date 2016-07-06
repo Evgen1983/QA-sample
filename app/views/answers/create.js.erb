@@ -4,9 +4,9 @@
 <% end %>
 <% else %>
   <% if remotipart_submitted? %>
-    $('.answers').append('<%=  j "#{ render(@answer) }" %>');
+      $('.answers').append('<%=  j "#{ render(@answer) }" %>');
   <% else %>
-    $('.answers').append('<%=  j render(@answer) %>');
+      $('.answers').append('<%=  j render(@answer) %>');
   <% end %>
   $('#new_answer').find('#answer_body').val('');
   $('.nested-fields').find('#answer_attachments_attributes_0_file').val('');

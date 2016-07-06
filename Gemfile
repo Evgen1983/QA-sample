@@ -29,6 +29,8 @@ gem 'jquery-turbolinks'
 gem 'carrierwave'
 gem 'remotipart'
 gem "cocoon"
+gem 'private_pub'
+gem 'thin'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
