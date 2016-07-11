@@ -1,0 +1,9 @@
+.comments-errors-form
+- if user_signed_in?
+  = form_for [ commentable, commentable.comments.build ], remote: true do |f|
+    p= f.label :content, " Add Comment"
+    = f.text_area :content
+    p= f.submit 'Submit'
+- else
+  p
+     | You need to sign in or sign up before create comment.    
