@@ -4,11 +4,24 @@
 <% end %>
 <% else %>
   <% if remotipart_submitted? %>
-      $('.answers').append('<%=  j "#{ render(@answer) }" %>');
+    $('.answers').append('<%=  j "#{ render(@answer) }" %>');
   <% else %>
-      $('.answers').append('<%=  j render(@answer) %>');
+    $('.answers').append('<%=  j render(@answer) %>');
   <% end %>
   $('#new_answer').find('#answer_body').val('');
   $('.nested-fields').find('#answer_attachments_attributes_0_file').val('');
   $('.answer-errors').empty();
+  <% publish_to "/questions/#{@question.id}/answers" do %>
+      var user_id = gon.current_user_id
+      var answer_user_id = <%= @answer.user_id %>
+      var answer_id = <%= @answer.id %>
+      if (answer_user_id != user_id) {
+        $('.answers').append('<%=  j render 'answerpub', answer: @answer %>');
+        if (user_id == undefined) {
+          $('#answer-' + answer_id).find('.answer_comment_form').empty()
+          $('#answer-' + answer_id).find('.answer_votesbuttons').empty()
+        } 
+      }
+  <% end %>
 <% end %>
+  

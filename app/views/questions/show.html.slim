@@ -2,7 +2,7 @@ h2 Question
 = render 'question'
 
 h3 Answers
-.answers
+.answers data={ question_id: "#{@question.id}"}
   = render @question.answers
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
