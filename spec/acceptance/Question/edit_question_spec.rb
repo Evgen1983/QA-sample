@@ -40,7 +40,7 @@ feature 'Question editing', %q{
         expect(page).to_not have_content question.title
         expect(page).to have_content 'edited question Title text text text text text'
         expect(page).to have_content 'edited question Body text text text text text'
-        expect(page).to_not have_selector 'textarea'
+        expect(page).to_not have_selector 'textarea#question_body'
       end
     end
 
@@ -55,7 +55,7 @@ feature 'Question editing', %q{
         expect(page).to have_content question.title
         expect(page).to have_content "Body can't be blank"
         expect(page).to have_content "Title can't be blank"
-        expect(page).to have_selector 'textarea'
+        expect(page).to have_selector 'textarea#question_body'
       end
     end
 

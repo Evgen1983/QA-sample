@@ -18,7 +18,11 @@ ready = ->
     else
       $('.question_votesbuttons').find('#button_up').attr('disabled',false);
       $('.question_votesbuttons').find('#button_down').attr('disabled',false);
-      $('.question_votesbuttons').find('#button_reset').attr('disabled',true); 
+      $('.question_votesbuttons').find('#button_reset').attr('disabled',true);
+
+  PrivatePub.subscribe "/questions", (data, channel) ->
+    question = $.parseJSON(data['question'])
+    $('.questions_list').append('<ul><li>' + JST["templates/question"]({question: question}) + '</li></ul>')
 $(document).ready(ready) 
 $(document).on('page:load', ready)  
 $(document).on('page:update', ready) 

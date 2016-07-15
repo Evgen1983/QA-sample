@@ -1,0 +1,5 @@
+<% if @comment.errors.present? %>
+  <% @comment.errors.full_messages.each do |message| %>
+    $('.comments-errors-form').append('<ul><li><%= j message %></li></ul>');
+  <% end %>
+<% end %>

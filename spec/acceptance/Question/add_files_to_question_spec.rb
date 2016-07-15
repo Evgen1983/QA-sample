@@ -28,7 +28,6 @@ feature 'Add files to question', %q{
       attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
     end
     click_on 'Create'
-    
     within '.question' do
       expect(page).to have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
       expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
@@ -59,7 +58,7 @@ feature 'Add files to question', %q{
     
     click_on 'Create'
     
-    within ".question"do
+    within ".question" do
       expect(page).to have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
       click_on 'Delete File'
       expect(page).to_not have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
@@ -76,7 +75,7 @@ feature 'Add files to question', %q{
       visit questions_path
       click_on 'Test question one'
     
-      within ".question"do
+      within ".question" do
         expect(page).to have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
         expect(page).to_not have_link 'Delete File'
       end
@@ -86,7 +85,7 @@ feature 'Add files to question', %q{
       visit questions_path
       click_on 'Test question one'
     
-      within ".question"do
+      within ".question" do
         expect(page).to have_link 'robots.txt', href: '/uploads/attachment/file/1/robots.txt'
         expect(page).to_not have_link 'Delete File'
       end
