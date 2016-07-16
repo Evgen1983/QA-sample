@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [ :new, :create ]
   before_action :load_question, only: [:show, :update, :destroy]
   before_action :build_answer, only: [:show]
-  after_action :private_pub, only: [:create]
+  after_action :question_pub, only: [:create]
   respond_to :js, only: :update
   def index
   	respond_with(@questions = Question.all)
@@ -42,7 +42,7 @@ class QuestionsController < ApplicationController
       @answer = @question.answers.build
     end
 
-    def private_pub
+    def question_pub
       PrivatePub.publish_to "/questions", question: @question.to_json if @question.valid?
     end
 
