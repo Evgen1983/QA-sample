@@ -10,7 +10,7 @@ h3 Answers
     .answer-errors
     = f.text_area :body
     p
-      = f.fields_for :attachments do |attachment|
+      = f.fields_for :attachments, @answer = @question.answers.build do |attachment|
         = render 'attachments/fields', f: attachment
       .links
         = link_to_add_association 'Add Attachment', f, :attachments, 

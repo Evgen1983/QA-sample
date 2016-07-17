@@ -1,35 +1,29 @@
 class AnswersController < ApplicationController
   include Voted
-  before_action :authenticate_user!, only: [ :create, :update, :destroy]
+  before_action :authenticate_user!, only: [ :create, :update, :destroy ] 
   before_action :set_question, only: [ :create ]
-  before_action :set_answer, only: [ :update, :destroy, :best_answer]
+  before_action :set_answer, only: [ :update, :destroy, :best_answer ]
   
   
+  respond_to :js
 
   def create
-    @answer = @question.answers.create(answer_params)
-    @answer.user = current_user
-    @answer.save
+   respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
   
   def update
-    if author_of?(@answer)
-      @answer.update(answer_params)
-      @question = @answer.question
-    end
+    @answer.update(answer_params) if author_of?(@answer)
+    respond_with @answer
   end
 
   def best_answer
-    if author_of?(@answer)
-      @answer.set_best!
-      @question = @answer.question
-    end
+    @answer.set_best! if author_of?(@answer)
+    respond_with @answer
   end
 
   def destroy
-    if author_of?(@answer)
-      @answer.destroy
-    end
+    @answer.destroy if author_of?(@answer)
+    respond_with @answer
   end
 
   private
@@ -41,7 +35,9 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+    @question = @answer.question
   end
+  
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:id, :file, :_destroy])
