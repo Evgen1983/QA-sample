@@ -36,6 +36,7 @@ gem 'skim'
 gem 'responders', '~> 2.0'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -54,6 +55,7 @@ group :development, :test do
   gem 'launchy'
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
+  gem 'letter_opener'
 end
 
 group :development do
