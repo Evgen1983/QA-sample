@@ -18,7 +18,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       set_flash_message(:notice, :success, kind: auth.provider.capitalize) if is_navigational_format?
     else
       flash[:notice] = 'Email is required to compete sign up'
-      render 'omniauth_callbacks/prompt_email', locals: { auth: auth }
+      render 'omniauth_callbacks/confirm_email', locals: { auth: auth }
     end
   end
   

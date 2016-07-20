@@ -55,7 +55,6 @@ group :development, :test do
   gem 'launchy'
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
-  gem 'letter_opener'
 end
 
 group :development do
