@@ -10,10 +10,7 @@ feature 'Siging in with Twitter', %q{
     before do
       visit new_user_session_path
       expect(page).to have_content 'Sign in with Twitter'
-      OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
-        provider: 'twitter', 
-        uid: '123456789',
-        info: { email: nil } })  
+      mock_auth_sucsess(:twitter) 
       click_on 'Sign in with Twitter'
     end
     
@@ -47,7 +44,7 @@ feature 'Siging in with Twitter', %q{
 
   scenario 'with invalid Twitter credentials' do
     visit new_user_session_path
-    OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
+    mock_auth_invalid(:twitter) 
     click_on 'Sign in with Twitter'
     expect(page).to have_content 'Could not authenticate you from Twitter'
   end

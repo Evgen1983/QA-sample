@@ -10,10 +10,7 @@ feature 'Siging in with Facebook', %q{
     visit new_user_session_path
     expect(page).to have_content 'Sign in with Facebook'
     
-    OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
-      provider: 'facebook', 
-      uid: '123456',
-      info: {email: 'user@email.com'} })  
+    mock_auth_sucsess(:facebook)
     click_on 'Sign in with Facebook'
 
     expect(page).to have_content 'Successfully authenticated from Facebook account.'
@@ -32,7 +29,7 @@ feature 'Siging in with Facebook', %q{
   scenario 'User try to sign in with invalid Facebook credentials' do
     visit new_user_session_path
 
-    OmniAuth.config.mock_auth[:facebook] = :invalid_credentials
+    mock_auth_invalid(:facebook)
     click_on 'Sign in with Facebook'
     
     expect(page).to have_content 'Could not authenticate you from Facebook'

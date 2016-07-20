@@ -8,17 +8,14 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :authorizations
+  has_many :authorizations, dependent: :destroy
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-     if auth.info.try(:email)
-        email = auth.info[:email]
-      else
-        return false
-     end
+    auth.info.try(:email) ? (email = auth.info[:email]) : (return false)
+        
     user = User.where(email: email).first
     if user
       user.create_authorization(auth)
