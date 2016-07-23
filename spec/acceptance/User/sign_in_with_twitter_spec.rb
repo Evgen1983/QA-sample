@@ -12,14 +12,15 @@ feature 'Siging in with Twitter', %q{
       expect(page).to have_content 'Sign in with Twitter'
       mock_auth_sucsess(:twitter) 
       click_on 'Sign in with Twitter'
+
     end
     
     scenario' Successfully authenticated' do
-    
+     
       fill_in 'auth_info_email', with: 'test@test.com'
       click_on 'Submit'
       expect(page).to have_content 'Successfully authenticated from Twitter account'
-
+      
       click_on 'Sign out'
       click_on 'Sign in'
       click_on 'Sign in with Twitter'

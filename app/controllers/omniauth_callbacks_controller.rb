@@ -1,5 +1,7 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-   before_action :provider_sign_in, only: [:facebook, :twitter, :finish_sign_up]
+   
+  before_action :provider_sign_in, only: [ :facebook, :twitter ]
+  
 
   def facebook
   end
@@ -7,7 +9,14 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def twitter
   end
 
-  def finish_sign_up
+  def finish_sign_up 
+    data = session["devise.provider_data"]
+    provider = data["provider"]
+    @user = User.find_for_oauth(auth.merge(data))
+      if @user && @user.persisted?
+        sign_in_and_redirect @user, event: :authentication
+        set_flash_message(:notice, :success, kind: provider.capitalize) if is_navigational_format?
+    end
   end
 
   private
@@ -17,13 +26,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: auth.provider.capitalize) if is_navigational_format?
     else
+      session["devise.provider_data"] = ({provider: auth.provider, uid: auth.uid})
       flash[:notice] = 'Email is required to compete sign up'
-      render 'omniauth_callbacks/confirm_email', locals: { auth: auth }
+      render 'omniauth_callbacks/confirm_email'
     end
   end
   
   def auth
     request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params[:auth])
   end
-  
 end
