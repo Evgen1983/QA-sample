@@ -12,6 +12,14 @@ class ApplicationController < ActionController::Base
   
   before_action :set_gon_variables
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_url, alert: exception.message }
+      format.js   { redirect_to root_url, alert: exception.message }
+      format.json { head :forbidden }
+    end
+  end
+
   private
 
   def set_gon_variables

@@ -32,6 +32,7 @@ module Voted
 
   def find_votable
     @votable = model_klass.find(params[:id])
+    authorize! action_name.to_sym, @votable
   end
 
   def model_klass

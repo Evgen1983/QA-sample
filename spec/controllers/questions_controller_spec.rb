@@ -104,8 +104,8 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq question[:body]
       end
 
-      it 're-renders update template' do
-        expect(response).to render_template :update
+      it 'redirect_to root_url' do
+        expect(response).to redirect_to root_url
       end
     end
   end
@@ -133,10 +133,10 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, id: question }.to_not change(Question, :count)
       end
 
-      it "redirects to question view" do
+      it "redirects to root_url" do
         delete :destroy, id: question
-        expect(response).to redirect_to question_path(question)
-        expect(flash[:notice]).to be_present
+        expect(response).to redirect_to root_url
+        expect(flash[:alert]).to be_present
       end
     end
   end
