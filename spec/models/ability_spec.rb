@@ -86,5 +86,25 @@ describe Ability do
       #create
       it { should be_able_to :create, Comment }
     end
+
+    context 'for attachment' do
+      context 'to question' do
+        let(:attachment) { create(:attachment, attachable: question) }
+        let(:own_attachment) { create(:attachment, attachable: own_question) }
+        #destroy
+        it { should be_able_to :destroy, own_attachment, user: user }
+
+        it { should_not be_able_to :destroy, attachment, user: user }
+      end
+
+      context 'to answer' do
+        let(:attachment) { create(:attachment, attachable: answer) }
+        let(:own_attachment) { create(:attachment, attachable: own_answer) }
+        #destroy
+        it { should be_able_to :destroy, own_attachment, user: user }
+
+        it { should_not be_able_to :destroy, attachment, user: user }
+      end
+    end
   end
 end
