@@ -17,12 +17,12 @@ Rails.application.routes.draw do
   resources :questions, concerns: :votable do
     resources :comments, only: :create, defaults: { commentable: 'questions' }
     resources :answers , shallow: true , concerns: :votable do
+      
       resources :comments, only: :create, defaults: { commentable: 'answers' }
     end
   end
 
   resources :attachments, only: :destroy
-
   patch "/answers/best_answer/:id", to: 'answers#best_answer', as: 'best_answer'
 
   # The priority is based upon order of creation: first created -> highest priority.

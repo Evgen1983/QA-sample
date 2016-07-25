@@ -39,7 +39,7 @@ class Ability
     cannot :vote_cancel, Question, user: user
 
     
-    can :set_best_answer, Answer, question: { user: user }
+    can :best_answer, Answer, question: { user: user }
 
     can :vote_up, Answer
     can :vote_down, Answer

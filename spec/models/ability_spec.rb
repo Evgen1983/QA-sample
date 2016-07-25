@@ -24,6 +24,9 @@ describe Ability do
     let(:other) { create :user }
     let(:question) { create(:question) }
     let(:own_question) { create(:question, user: user) }
+    let(:answer) { create(:answer) }
+    let(:own_answer) { create(:answer, user: user) }
+    let(:answer_own_question)  { create(:answer, question: own_question, user: user) }
    
 
     #don't admin capability
@@ -51,5 +54,34 @@ describe Ability do
 
       it { should_not be_able_to :destroy, question, user: user }
     end
+    
+    context 'answer' do
+      #read
+      it { should be_able_to :read, Answer }
+      #create
+      it { should be_able_to :create, Answer }
+      #update
+      it { should be_able_to :update, create(:answer, user: user), user: user }
+
+      it { should_not be_able_to :update, create(:answer, user: other), user: user }
+      #set_best_answer
+      it { should be_able_to :best_answer, answer_own_question, user: user }
+
+      it { should_not be_able_to :best_answer, own_answer, user: user }
+      #vote
+      it { should be_able_to :vote_up, answer, user: user }
+      it { should be_able_to :vote_down, answer, user: user }
+      it { should be_able_to :vote_cancel, answer, user: user }
+
+      it { should_not be_able_to :vote_up, own_answer, user: user }
+      it { should_not be_able_to :vote_down, own_answer, user: user }
+      it { should_not be_able_to :vote_cancel, own_answer, user: user }
+      #destroy
+      it { should be_able_to :destroy, own_answer, user: user }
+
+      it { should_not be_able_to :destroy, answer, user: user }
+    end
+
+
   end
 end

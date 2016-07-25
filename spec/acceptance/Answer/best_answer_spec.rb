@@ -7,8 +7,8 @@ feature 'Best Answer', %q{
 } do
   given(:user)     { create_pair(:user) }
   given(:question) { create(:question, user: user[0]) }
-  given!(:answer_1) { create(:answer, question: question, user: user[0]) }
-  given!(:answer_2) { create(:answer, question: question, user: user[0]) }
+  given!(:answer_1) { create(:answer, question: question, user: user[1]) }
+  given!(:answer_2) { create(:answer, question: question, user: user[1]) }
 
 
   scenario 'Author of question sees link_to Best Answer', js: true do
