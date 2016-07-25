@@ -82,6 +82,9 @@ describe Ability do
       it { should_not be_able_to :destroy, answer, user: user }
     end
 
-
+    context 'for comment' do
+      #create
+      it { should be_able_to :create, Comment }
+    end
   end
 end
