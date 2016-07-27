@@ -24,31 +24,12 @@ class Ability
 
   def user_abilities
     quest_abilities
-    
+    alias_action :update, :destroy, :to => :modify
+    alias_action :vote_up, :vote_down, :vote_cancel, :to => :vote
     can :create, [ Question, Answer, Comment ]
-    can :update, [ Question, Answer ], user: user
-    can :destroy, [ Question, Answer ], user: user
-
-
-    can :vote_up, Question
-    can :vote_down, Question
-    can :vote_cancel, Question
-
-    cannot :vote_up, Question, user: user
-    cannot :vote_down, Question, user: user
-    cannot :vote_cancel, Question, user: user
-
-    
+    can :modify, [ Question, Answer ], user: user
+    can :vote, [ Question, Answer ] { |votable| user != votable.user} 
     can :best_answer, Answer, question: { user: user }
-
-    can :vote_up, Answer
-    can :vote_down, Answer
-    can :vote_cancel, Answer
-
-    cannot :vote_up, Answer, user: user
-    cannot :vote_down, Answer, user: user
-    cannot :vote_cancel, Answer, user: user
-
     can :destroy, Attachment, attachable: { user: user }
   end
 end

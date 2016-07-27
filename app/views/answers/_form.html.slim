@@ -1,0 +1,15 @@
+- if can?(:create, Answer)
+  = form_for [@question, @answer], remote: true do |f|
+    = f.label :body, 'Your Answer'
+    .answer-errors
+    = f.text_area :body
+    p
+      = f.fields_for :attachments, @answer = @question.answers.build do |attachment|
+        = render 'attachments/fields', f: attachment
+      .links
+        = link_to_add_association 'Add Attachment', f, :attachments, 
+          partial: 'attachments/fields'
+    p= f.submit 'Send'
+- else
+  p
+    | You need to sign in or sign up before create answer.

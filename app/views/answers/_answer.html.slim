@@ -4,7 +4,6 @@ div id="answer-#{ answer.id }" class="answer"
       - if answer.best?
         p Best Answer
       p
-        h4 Anwer-#{ answer.id } 
         = answer.body
       h4 Attachments:
       ul
@@ -21,13 +20,12 @@ div id="answer-#{ answer.id }" class="answer"
       .answer_votes
         = render 'votes/score', votable: answer
       .answer_votesbuttons 
-        - if user_signed_in? != author_of?(answer)
-          = render 'votes/buttons', votable: answer
+        = render 'votes/buttons', votable: answer
       .answer_links
-        - if author_of?(@question)
+        - if can?(:best_answer, answer)
           -unless answer.best?
             p= link_to 'Accept as the best Answer', best_answer_path(answer), remote: true, method: :patch 
-        - if author_of?(answer)
+        - if can?(:modify, answer)
           p= link_to 'Delete Answer', answer, :authenticity_token => form_authenticity_token(), remote: true, method: :delete, data: { confirm: 'Are You sure?' }
           p= link_to 'Edit Answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
           p
