@@ -98,9 +98,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, id: answer, format: :js }.to_not change(Answer, :count)
       end
 
-      it "redirects to question view" do
+      it "redirects to root_url" do
         delete :destroy, id: answer, format: :js
-        expect(response).to render_template :destroy
+        expect(response).to redirect_to root_url
       end
     end
   end
@@ -115,8 +115,8 @@ RSpec.describe AnswersController, type: :controller do
     context "Authenticated user" do
       sign_in_user
       let!(:question_1){ create(:question, user: @user) }
-      let!(:answer_1){ create(:answer, question: question_1, user: @user) }
-      let!(:answer_2){ create(:answer, question: question_1, user: @user) }
+      let!(:answer_1){ create(:answer, question: question_1) }
+      let!(:answer_2){ create(:answer, question: question_1) }
      
       it "can't accept the best answer" do
         patch :best_answer, id: answer, question_id: question, format: :js

@@ -4,20 +4,6 @@ h2 Question
 h3 Answers
 .answers data={ question_id: "#{@question.id}"}
   = render @question.answers
-- if user_signed_in?
-  = form_for [@question, @answer], remote: true do |f|
-    = f.label :body, 'Your Answer'
-    .answer-errors
-    = f.text_area :body
-    p
-      = f.fields_for :attachments, @answer = @question.answers.build do |attachment|
-        = render 'attachments/fields', f: attachment
-      .links
-        = link_to_add_association 'Add Attachment', f, :attachments, 
-        partial: 'attachments/fields'
-    p= f.submit 'Send'
-- else
-  p
-     | You need to sign in or sign up before create answer.
+= render 'answers/form'
 
 = subscribe_to "/questions/#{@question.id}/answers"

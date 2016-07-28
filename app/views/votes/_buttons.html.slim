@@ -1,15 +1,16 @@
--if votable.votes.exists?(user: current_user)
+- if can?(:vote, votable)
+  -if votable.votes.exists?(user: current_user)
 
-  = button_to 'Up', polymorphic_path(votable, action: :vote_up), disabled: true, remote: true, data: { type: :json }, method: :post, id:'button_up'
+    = button_to 'Up', polymorphic_path(votable, action: :vote_up), disabled: true, remote: true, data: { type: :json }, method: :post, id:'button_up'
   
-  = button_to 'Down', polymorphic_path(votable, action: :vote_down), disabled: true, remote: true, data: { type: :json }, method: :post, id: 'button_down'
+    = button_to 'Down', polymorphic_path(votable, action: :vote_down), disabled: true, remote: true, data: { type: :json }, method: :post, id: 'button_down'
 
-  = button_to 'Reset', polymorphic_path(votable, action: :vote_cancel), disabled: false,  remote: true, data: { type: :json }, method: :post, id: 'button_reset'
+    = button_to 'Reset', polymorphic_path(votable, action: :vote_cancel), disabled: false,  remote: true, data: { type: :json }, method: :post, id: 'button_reset'
   
--else
+  -else
 
-  = button_to 'Up', polymorphic_path(votable, action: :vote_up), disabled: false, remote: true, data: { type: :json }, method: :post, id:'button_up'
+    = button_to 'Up', polymorphic_path(votable, action: :vote_up), disabled: false, remote: true, data: { type: :json }, method: :post, id:'button_up'
   
-  = button_to 'Down', polymorphic_path(votable, action: :vote_down), disabled: false, remote: true, data: { type: :json }, method: :post, id: 'button_down'
+    = button_to 'Down', polymorphic_path(votable, action: :vote_down), disabled: false, remote: true, data: { type: :json }, method: :post, id: 'button_down'
 
-  = button_to 'Reset', polymorphic_path(votable, action: :vote_cancel), disabled: true, remote: true, data: { type: :json }, method: :post, id: 'button_reset'
+    = button_to 'Reset', polymorphic_path(votable, action: :vote_cancel), disabled: true, remote: true, data: { type: :json }, method: :post, id: 'button_reset'

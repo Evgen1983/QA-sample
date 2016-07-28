@@ -4,25 +4,26 @@ class AnswersController < ApplicationController
   before_action :set_question, only: [ :create ]
   before_action :set_answer, only: [ :update, :destroy, :best_answer ]
   
-  
   respond_to :js
+  
+  authorize_resource
 
   def create
    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
   
   def update
-    @answer.update(answer_params) if author_of?(@answer)
+    @answer.update(answer_params) 
     respond_with @answer
   end
 
   def best_answer
-    @answer.set_best! if author_of?(@answer)
+    @answer.set_best! 
     respond_with @answer
   end
 
   def destroy
-    @answer.destroy if author_of?(@answer)
+    @answer.destroy 
     respond_with @answer
   end
 

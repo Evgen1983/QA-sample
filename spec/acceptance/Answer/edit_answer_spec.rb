@@ -33,6 +33,7 @@ feature 'Answer editing', %q{
     scenario 'try to edit his answer', js: true do
       click_on 'Edit Answer'
       within '.answers' do
+        
         fill_in 'Answer', with: 'edited answer text text text text text'
         click_on 'Save'
 
