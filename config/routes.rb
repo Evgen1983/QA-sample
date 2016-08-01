@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   devise_scope :user do
     post '/finish_sign_up' => 'omniauth_callbacks#finish_sign_up'
@@ -11,6 +12,15 @@ Rails.application.routes.draw do
       post :vote_up
       post :vote_down
       post :vote_cancel
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+        get :all, on: :collection
+      end
     end
   end
 

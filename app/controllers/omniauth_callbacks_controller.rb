@@ -1,4 +1,4 @@
-class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+class OmniauthCallbacksController < Devise::OmniauthCallbacksController 
    
   before_action :provider_sign_in, only: [ :facebook, :twitter ]
   
@@ -9,14 +9,14 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def twitter
   end
 
-  def finish_sign_up 
+  def finish_sign_up
     data = session["devise.provider_data"]
     provider = data["provider"]
     @user = User.find_for_oauth(auth.merge(data))
       if @user && @user.persisted?
         sign_in_and_redirect @user, event: :authentication
         set_flash_message(:notice, :success, kind: provider.capitalize) if is_navigational_format?
-    end
+      end 
   end
 
   private
