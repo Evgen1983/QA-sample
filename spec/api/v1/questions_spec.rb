@@ -51,6 +51,66 @@ describe 'Questions API' do
           end
         end
       end
-    end
+    end  
   end
+
+  describe 'GET /show' do
+    let!(:question) { create :question }
+    let!(:comment) { create :comment, commentable: question }
+    let!(:attachment) { create :attachment, attachable: question }
+
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access_token' do
+        get "/api/v1/questions/#{question.id}", format: :json
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        get "/api/v1/questions/#{question.id}", format: :json, access_token: '1234'
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      let!(:access_token) { create :access_token }
+
+      before { get "/api/v1/questions/#{question.id}",
+               format: :json, access_token: access_token.token }
+
+      it { expect(response).to be_success }
+      it { expect(response.body).to have_json_size(1) }
+      %w(id title body created_at updated_at).each do |attr|
+        it "contains #{attr}" do
+          expect(response.body).to be_json_eql(
+            question.send(attr.to_sym).to_json).at_path("question/#{attr}")
+        end
+      end
+
+      context 'comments' do
+        
+        it 'includes comments list' do
+          expect(response.body).to have_json_size(1).at_path('question/comments')
+        end
+
+        %w(id content created_at updated_at).each do |attr|
+          it "contains #{attr}" do
+            expect(response.body).to be_json_eql(
+              comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
+          end
+        end
+      end
+
+      context 'attachments' do
+
+        it 'includes attachments list' do
+          expect(response.body).to have_json_size(1).at_path('question/attachments')
+        end
+        
+         it "contains url" do
+          expect(response.body).to be_json_eql(
+            attachment.url.to_json).at_path("question/attachments/0/url")
+        end
+      end
+    end
+end
 end
