@@ -79,6 +79,7 @@ describe 'Questions API' do
 
       it { expect(response).to be_success }
       it { expect(response.body).to have_json_size(1) }
+      
       %w(id title body created_at updated_at).each do |attr|
         it "contains #{attr}" do
           expect(response.body).to be_json_eql(
