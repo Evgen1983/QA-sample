@@ -17,10 +17,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :profiles do
+      resources :profiles do
         get :me, on: :collection
         get :all, on: :collection
       end
+      resources :questions
     end
   end
 
