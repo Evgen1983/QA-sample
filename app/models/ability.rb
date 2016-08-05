@@ -31,5 +31,6 @@ class Ability
     can :vote, [ Question, Answer ] { |votable| user != votable.user} 
     can :best_answer, Answer, question: { user: user }
     can :destroy, Attachment, attachable: { user: user }
+    can :me, :profile
   end
 end

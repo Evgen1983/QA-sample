@@ -16,7 +16,7 @@ describe 'Questions API' do
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
-      let!(:questions) { create_list(:question, 2) }
+      let!(:questions) { create_pair(:question) }
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
 
@@ -55,7 +55,7 @@ describe 'Questions API' do
   end
 
   describe 'GET /show' do
-    let!(:question) { create :question }
+    let(:question) { create :question }
     let!(:comment) { create :comment, commentable: question }
     let!(:attachment) { create :attachment, attachable: question }
 
@@ -72,7 +72,7 @@ describe 'Questions API' do
     end
 
     context 'authorized' do
-      let!(:access_token) { create :access_token }
+      let(:access_token) { create :access_token }
 
       before { get "/api/v1/questions/#{question.id}",
                format: :json, access_token: access_token.token }
@@ -113,5 +113,71 @@ describe 'Questions API' do
         end
       end
     end
+  end
+  
+  describe 'POST /create' do
+    let(:access_token) { create(:access_token) }
+    let(:user) { User.find(access_token.resource_owner_id) }
+
+    context 'unauthorized' do
+      context 'there is no acess_token' do
+        subject { post '/api/v1/questions', format: :json, question: attributes_for(:question) }
+        it 'does not create the question' do
+          expect{
+            subject
+          }.to_not change(Question, :count)
+        end
+
+        it 'returns 401 status' do
+          subject
+          expect(response.status).to eq 401
+        end
+      end
+
+      context 'acess_token is invalid' do
+        subject { post '/api/v1/questions', format: :json, access_token: '1234', question: attributes_for(:question) }
+        it 'does not create the question' do
+          expect{
+            subject
+          }.to_not change(Question, :count)
+        end
+
+        it 'returns 401 status' do
+          subject
+          expect(response.status).to eq 401
+        end
+      end
 end
+
+    context 'authorized' do
+      context 'with valid attributes' do
+        subject { post '/api/v1/questions', format: :json, access_token: access_token.token, question: attributes_for(:question) }
+        it 'reponses with 201' do
+          subject
+          expect(response.status).to eq 201
+        end
+
+        it 'creates new question' do
+          expect{
+           subject
+          }.to change(user.questions, :count).by 1
+        end
+      end
+
+      context 'with invalid attributes' do
+        subject { post '/api/v1/questions', format: :json, access_token: access_token.token, question: { body: nil } }
+
+        it 'responses with 422' do
+          subject
+        expect(response.status).to eq 422
+        end
+
+        it 'doesnt create new question' do
+          expect{
+            subject
+          }.to_not change(Question, :count)
+        end
+      end
+    end
+  end
 end
