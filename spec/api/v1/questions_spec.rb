@@ -147,7 +147,7 @@ describe 'Questions API' do
           expect(response.status).to eq 401
         end
       end
-end
+    end
 
     context 'authorized' do
       context 'with valid attributes' do

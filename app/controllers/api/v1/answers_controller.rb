@@ -1,5 +1,5 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  before_action :set_question, only: [ :index ]
+  before_action :set_question, only: [ :index, :create ]
   before_action :set_answer, only: [ :show ]
   
   authorize_resource
@@ -10,10 +10,18 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
   
   def show
-    respond_with @answer 
+    respond_with @answer, serializer: AnswerPreviewSerializer 
+  end
+
+  def create
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_resource_owner)))
   end
   
   private
+
+  def answer_params
+    params.require(:answer).permit(:body)
+  end
 
   def set_answer
     @answer = Answer.find(params[:id])
