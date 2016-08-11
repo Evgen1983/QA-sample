@@ -14,9 +14,7 @@ describe 'Profile API' do
 
       before { get '/api/v1/profiles/me', format: :json, access_token: access_token.token }
 
-      it 'returns 200 status' do
-        expect(response).to be_success
-      end
+      it_behaves_like "successfully reponsible"
 
       %w(id email created_at updated_at admin).each do |attr|
         it "contains #{attr}" do
@@ -47,9 +45,7 @@ describe 'Profile API' do
 
       before { get '/api/v1/profiles', format: :json, access_token: access_token.token }
 
-      it 'returns 200 status' do
-        expect(response).to be_success
-      end
+      it_behaves_like "successfully reponsible"
 
       it 'contains array of users' do
         expect(response.body).to be_json_eql(users.to_json)

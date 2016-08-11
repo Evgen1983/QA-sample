@@ -19,9 +19,7 @@ describe 'Answers API' do
 
       before { get "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token }
 
-      it 'returns 200 status' do
-        expect(response).to be_success
-      end
+      it_behaves_like "successfully reponsible"
 
       it 'returns list of answers' do
         expect(response.body).to have_json_size(3).at_path('answers')
@@ -52,10 +50,8 @@ describe 'Answers API' do
 
       before { get "/api/v1/answers/#{answer.id}", format: :json, access_token: access_token.token }
 
-      it 'returns 200 status' do
-        expect(response).to be_success
-      end
-
+      it_behaves_like "successfully reponsible"
+     
       it 'return answer object' do
         expect(response.body).to have_json_size(1)
       end
