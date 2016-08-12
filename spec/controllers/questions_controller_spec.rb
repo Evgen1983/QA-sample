@@ -47,27 +47,37 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     sign_in_user
     context 'with valid attributes' do
+      let(:subject) { post :create, question: attributes_for(:question) }
       it 'saves the new question in the database' do
-        expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        expect {
+         subject
+         }.to change(Question, :count).by(1)
       end
 
       it 'associate question to user and save in db'do
-        expect { post :create, question: attributes_for(:question) }.to change(@user.questions, :count).by(1)
+        expect {
+         subject 
+         }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to show view' do
-        post :create, question: attributes_for(:question)
+        subject
         expect(response).to redirect_to question_path(assigns(:question))
       end
+
+      it_behaves_like 'publishable', "/questions" 
     end
 
     context 'with invalid attributes' do
+      let(:subject) { post :create, question: attributes_for(:invalid_question) }
       it 'does not save the question' do
-        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
+        expect { 
+        subject 
+        }.to_not change(Question, :count)
       end
 
       it 're-renders new view' do
-        post :create, question: attributes_for(:invalid_question)
+        subject
         expect(response).to render_template :new
       end
     end
@@ -77,8 +87,9 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
     context 'valid attributes' do
       let(:question) { create(:question, user: @user ) }
+      let(:subject) { patch :update, id: question, question: attributes_for(:question), format: :js }
       it 'assings the requested question to @question' do
-        patch :update, id: question, question: attributes_for(:question), format: :js
+        subject
         expect(assigns(:question)).to eq question
       end
 
@@ -90,7 +101,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to the updated question' do
-        patch :update, id: question, question: attributes_for(:question), format: :js
+        subject
         expect(response).to render_template :update
       end
     end
