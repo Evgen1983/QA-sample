@@ -8,25 +8,24 @@ RSpec.describe CommentsController, type: :controller do
 
   describe 'POST #create for questions' do
     context 'with valid attributes' do
-      let(:create_comment) { post :create, commentable: 'questions', question_id: question.id, comment: attributes_for(:comment), format: :js }
+      let(:subject) { post :create, commentable: 'questions', question_id: question.id, comment: attributes_for(:comment), format: :js }
 
         it "save new comment in database" do
-          expect { create_comment }.to change(question.comments, :count).by(+1)
+          expect { 
+            subject
+           }.to change(question.comments, :count).by(+1)
         end
 
         it "save new comment for user in database" do
-          expect { create_comment }.to change(@user.comments, :count).by(+1)
+          expect { 
+            subject
+            }.to change(@user.comments, :count).by(+1)
         end
 
-        it 'Create @question.to_json after create question ' do
-          
-          expect(PrivatePub).to receive(:publish_to).with('/comments', anything)
-          create_comment
-        end
+        it_behaves_like 'publishable', "/comments"
 
         it "render nothing" do
-          create_comment
-
+          subject
           expect(response.body).to eq ""
         end
      end
@@ -51,25 +50,24 @@ RSpec.describe CommentsController, type: :controller do
 
   describe 'POST #create for answers' do
     context 'with valid attributes' do
-      let(:create_comment) { post :create, commentable: 'answers', answer_id: answer.id, comment: attributes_for(:comment), format: :js }
+      let(:subject) { post :create, commentable: 'answers', answer_id: answer.id, comment: attributes_for(:comment), format: :js }
 
         it "save new comment in database" do
-          expect { create_comment }.to change(answer.comments, :count).by(+1)
+          expect { 
+            subject 
+            }.to change(answer.comments, :count).by(+1)
         end
 
         it "save new comment for user in database" do
-          expect { create_comment }.to change(@user.comments, :count).by(+1)
+          expect {
+          subject  
+          }.to change(@user.comments, :count).by(+1)
         end
-
-        it 'Create @answer.to_json after create question ' do
           
-          expect(PrivatePub).to receive(:publish_to).with('/comments', anything)
-          create_comment
-        end
-
+        it_behaves_like 'publishable', "/comments" 
+        
         it "render nothing" do
-          create_comment
-
+          subject
           expect(response.body).to eq ""
         end
      end

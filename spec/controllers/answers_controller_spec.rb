@@ -9,27 +9,35 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     sign_in_user
     context 'with valid attributes' do
+      let(:subject) { post :create, answer: attributes_for(:answer), question_id: question, format: :js }
       it 'save the new answer in the database' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)  	
+        expect { 
+          subject
+          }.to change(question.answers, :count).by(1)  	
       end
 
       it 'associate answer to user and save in db'do
-        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(@user.answers, :count).by(1)
+        expect {
+         subject 
+         }.to change(@user.answers, :count).by(1)
       end
 
       it 'render create temlate' do
-      	post :create, answer: attributes_for(:answer), question_id: question, format: :js
+      	subject
         expect(response).to render_template :create
       end
     end
 
     context 'with invalid attributes' do
+      let(:subject) { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }
       it 'does not save the answer' do
-        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
+        expect { 
+          subject
+          }.to_not change(Answer, :count)
       end
 
       it 'render create temlate' do
-        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
+        subject
         expect(response).to render_template :create
       end
     end
