@@ -46,6 +46,7 @@ gem 'whenever'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'sidetiq'
+#gem "celluloid", git: "https://github.com/celluloid/celluloid", submodules: true
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
