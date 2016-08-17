@@ -14,4 +14,6 @@ RSpec.describe Question, type: :model do
   it { should accept_nested_attributes_for(:attachments) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribers).through(:subscriptions) }
 end
