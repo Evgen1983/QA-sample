@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   include Voted
   before_action :authenticate_user!, only: [ :new, :create ]
-  before_action :load_question, only: [:show, :update, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy, :subscribe, :unsubscribe]
   before_action :build_answer, only: [:show]
   after_action :question_pub, only: [:create]
   respond_to :js, only: :update
@@ -31,6 +31,16 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy 
     respond_with(@question)
+  end
+  
+  def subscribe
+    @question.subscribe(current_user)
+    redirect_to @question, notice: 'Subscribed successfully!'
+  end
+
+  def unsubscribe
+    @question.unsubscribe(current_user)
+    redirect_to @question, notice: 'Unsubscribed successfully!'
   end
 
   private

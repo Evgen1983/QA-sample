@@ -34,6 +34,8 @@ Rails.application.routes.draw do
 
   resources :questions, concerns: :votable do
     resources :comments, only: :create, defaults: { commentable: 'questions' }
+    post :subscribe, on: :member
+    post :unsubscribe, on: :member
     resources :answers , shallow: true , concerns: :votable do
       
       resources :comments, only: :create, defaults: { commentable: 'answers' }
