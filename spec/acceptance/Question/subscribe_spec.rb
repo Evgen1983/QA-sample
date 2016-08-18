@@ -7,13 +7,13 @@ feature 'Subscribe question', %q{
 } do
   
   
-  given(:user) { create(:user) }
+  given(:user_1) { create(:user) }
   given(:question) { create(:question) }
-  given(:subscribed_question) { create(:question, user: user) }
+  given!(:subscribed_question) { create(:question, user: user_1) }
   
   context 'authenticated user' do
     before do
-      sign_in user
+      sign_in user_1
     end
 
     scenario 'subscribes to question' do
@@ -21,6 +21,7 @@ feature 'Subscribe question', %q{
       expect(page).to_not have_link 'Unsubscribe'
       click_on 'Subscribe'
       expect(page).to have_content 'Subscribed successfully!'
+      
     end
 
     scenario 'unsubscribes from question' do
