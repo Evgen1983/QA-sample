@@ -6,7 +6,7 @@ class DailyMailer < ApplicationMailer
   #   en.daily_mailer.digest.subject
   #
   def digest(user)
-    @questions = Question.yesterday	
+    @questions = Question.yesterday
     mail to: user.email
   end
 end

@@ -18,12 +18,14 @@ feature 'Subscribe question', %q{
 
     scenario 'subscribes to question' do
       visit question_path(question)
+      expect(page).to_not have_link 'Unsubscribe'
       click_on 'Subscribe'
       expect(page).to have_content 'Subscribed successfully!'
     end
 
     scenario 'unsubscribes from question' do
       visit question_path(subscribed_question)
+      expect(page).to_not have_link 'Subscribe'
       click_on 'Unsubscribe'
       expect(page).to have_content 'Unsubscribed successfully!'
     end
@@ -34,11 +36,13 @@ feature 'Subscribe question', %q{
     scenario ' try subscribes to question' do
       visit question_path(question)
       expect(page).to_not have_link 'Subscribe'
+      expect(page).to_not have_link 'Unsubscribe'
     end
 
     scenario ' try unsubscribes from question' do
       visit question_path(subscribed_question)
       expect(page).to_not have_link 'Unsubscribe'
+      expect(page).to_not have_link 'Subscribe'
     end
   end
 end
