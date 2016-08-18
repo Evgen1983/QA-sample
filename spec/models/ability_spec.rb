@@ -38,6 +38,10 @@ describe Ability do
       it { should be_able_to :read, Question }
       #create
       it { should be_able_to :create, Question }
+      #subscribe
+      it { should be_able_to :subscribe, Question }
+      #unsubscribe
+      it { should be_able_to :unsubscribe, Question }
       #update
       it { should be_able_to :update, create(:question, user: user), user: user }
       it { should_not be_able_to :update, create(:question, user: other), user: user }

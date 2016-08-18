@@ -25,6 +25,7 @@ class Ability
   def user_abilities
     quest_abilities
     alias_action :update, :destroy, :to => :modify
+    alias_action :subscribe, :unsubscribe, :to => :be_subscribed
     alias_action :vote_up, :vote_down, :vote_cancel, :to => :vote
     can :create, [ Question, Answer, Comment ]
     can :modify, [ Question, Answer ], user: user
@@ -32,5 +33,6 @@ class Ability
     can :best_answer, Answer, question: { user: user }
     can :destroy, Attachment, attachable: { user: user }
     can :me, :profile
+    can :be_subscribed, Question
   end
 end

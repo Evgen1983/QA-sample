@@ -9,11 +9,17 @@ class Answer < ActiveRecord::Base
   validates :body, presence: true, length: { in: 30..30000 }
   validates :question, presence: true
   
+  after_commit :sent_notice, on: :create
 
   def set_best!
     transaction do
       question.answers.update_all(best: false)
       self.update!(best: true)
     end
-end
+  end
+
+  private
+    def sent_notice
+      NewAnswerNoticeJob.perform_now(self)
+  end
 end
