@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe DailyMailer, type: :mailer do
   describe "digest" do
     let(:user) { create :user }
-    let(:mail) { DailyMailer.digest(user) }
+    let(:questions) { create_pair(:question) }
+    let(:mail) { DailyMailer.digest(user, questions) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Digest")
