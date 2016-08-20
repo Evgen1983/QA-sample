@@ -8,7 +8,7 @@ RSpec.configure do |config|
   config.include AcceptanceMacros, type: :feature
   config.include OmniauthMacros, type: :feature
   OmniAuth.config.test_mode = true
-
+  
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
@@ -43,7 +43,12 @@ RSpec.configure do |config|
       DatabaseCleaner.strategy = :truncation
     end
   end
-
+  
+  config.before(:each, type: :sphinx) do
+    # For tests tagged with Sphinx, use deletion (or truncation)
+    DatabaseCleaner.strategy = :truncation
+  end
+  
   config.before(:each) do
     DatabaseCleaner.start
   end
