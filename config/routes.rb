@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   devise_scope :user do
     post '/finish_sign_up' => 'omniauth_callbacks#finish_sign_up'
   end
+  
   root to: "questions#index"
+
+  get 'search', to: 'search#index'
 
   concern :votable do
     member do
