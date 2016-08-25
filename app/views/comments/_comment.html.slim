@@ -1,3 +1,4 @@
-div id="comment-#{ comment.id }"
-  li
-     = comment.content
+ - cache [comment, current_user] do
+  div id="comment-#{ comment.id }"
+    li
+      = comment.content
