@@ -1,4 +1,4 @@
-- cache [comment, current_user] do
+- cache_unless user_signed_in?, comment do
   div id="comment-#{ comment.id }"
     li
       = comment.content

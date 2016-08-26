@@ -1,4 +1,4 @@
-- cache [@question, current_user] do
+- cache_unless user_signed_in?, @question do
   div id="question-#{ @question.id }" class="question"
     h3 Title:
     p= @question.title
@@ -11,7 +11,7 @@
     h4 Comments:
     .question_comments
       ul
-        = render @question.comments.order(created_at: :asc)
+        = render @question.comments
     .question_comment_form
       = render 'comments/form', commentable: @question
     h3 Rating for Question:

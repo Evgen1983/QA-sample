@@ -1,4 +1,4 @@
-- cache [answer, current_user] do
+- cache_unless user_signed_in?, answer do
   div id="answer-#{ answer.id }" class="answer" 
     .answer_body 
       - if answer.persisted?
@@ -13,7 +13,7 @@
         h4 Comments:
         .answer_comments
           ul
-            = render answer.comments.order(created_at: :asc)
+            = render answer.comments
         .answer_comment_form
           = render 'comments/form', commentable: answer
 
