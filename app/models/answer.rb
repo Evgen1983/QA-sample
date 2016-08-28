@@ -4,7 +4,7 @@ class Answer < ActiveRecord::Base
   include Commentable
   default_scope { order(best: :desc) }
 
-  belongs_to :question
+  belongs_to :question, touch: true
   belongs_to :user
   validates :body, presence: true, length: { in: 30..30000 }
   validates :question, presence: true
@@ -13,7 +13,7 @@ class Answer < ActiveRecord::Base
 
   def set_best!
     transaction do
-      question.answers.update_all(best: false)
+      question.answers.update_all(best: false, updated_at: Time.now)
       self.update!(best: true)
     end
   end

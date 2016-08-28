@@ -1,46 +1,47 @@
-div id="question-#{ @question.id }" class="question"
-  h3 Title:
-  p= @question.title
-  h3 Body:
-  p= @question.body
-  p Attachments:
-  ul
-    - @question.attachments.each do |a|
-      = render 'attachments/attachment', attachment: a
-  h4 Comments:
-  .question_comments
+- cache_unless user_signed_in?, @question do
+  div id="question-#{ @question.id }" class="question"
+    h3 Title:
+    p= @question.title
+    h3 Body:
+    p= @question.body
+    p Attachments:
     ul
-      = render @question.comments.order(created_at: :asc)
-  .question_comment_form
-    = render 'comments/form', commentable: @question
-  h3 Rating for Question:
-  .question_votes
-    = render 'votes/score', votable: @question
-  .question_votesbuttons
-    = render 'votes/buttons', votable: @question
+      - @question.attachments.each do |a|
+        = render 'attachments/attachment', attachment: a
+    h4 Comments:
+    .question_comments
+      ul
+        = render @question.comments
+    .question_comment_form
+      = render 'comments/form', commentable: @question
+    h3 Rating for Question:
+    .question_votes
+      = render 'votes/score', votable: @question
+    .question_votesbuttons
+      = render 'votes/buttons', votable: @question
   
 
-  p= link_to 'Back', questions_path
-  p
-    - if can?(:be_subscribed, @question)
-      - if @question.subscribed?(current_user)
-        = link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :post
-      - else
-        = link_to 'Subscribe', subscribe_question_path(@question), method: :post
-  - if can?(:modify, @question)
-    p= link_to 'Delete Question', question_path(@question, :authenticity_token => form_authenticity_token()), method: :delete, data: { confirm: 'Are You sure?' }
-    p= link_to 'Edit Question', '', class: 'edit-question-link', data: { question_id: @question.id }
+    p= link_to 'Back', questions_path
     p
-      = form_for @question, remote: true, html: { id: "edit_question_#{@question.id}" }  do |f|
-        .question-edit-errors
-        = f.label :title, "Edit Title"
-        p= f.text_field :title
-        = f.label :body, "Edit Body"
-        p= f.text_area :body
-        p Attachments:
-        p
-          .links
-            = link_to_add_association 'Add Attachment', f, :attachments, 
-            partial: 'attachments/fields'
-        p= f.submit 'Save'
+      - if can?(:be_subscribed, @question)
+        - if @question.subscribed?(current_user)
+          = link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :post
+        - else
+          = link_to 'Subscribe', subscribe_question_path(@question), method: :post
+    - if can?(:modify, @question)
+      p= link_to 'Delete Question', question_path(@question, :authenticity_token => form_authenticity_token()), method: :delete, data: { confirm: 'Are You sure?' }
+      p= link_to 'Edit Question', '', class: 'edit-question-link', data: { question_id: @question.id }
+      p
+        = form_for @question, remote: true, html: { id: "edit_question_#{@question.id}" }  do |f|
+          .question-edit-errors
+          = f.label :title, "Edit Title"
+          p= f.text_field :title
+          = f.label :body, "Edit Body"
+          p= f.text_area :body
+          p Attachments:
+          p
+            .links
+              = link_to_add_association 'Add Attachment', f, :attachments, 
+              partial: 'attachments/fields'
+          p= f.submit 'Save'
 = subscribe_to "/comments"

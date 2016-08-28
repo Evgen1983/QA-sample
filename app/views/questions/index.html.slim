@@ -1,10 +1,11 @@
 
 h1 All Questions
-- if can?(:create, Question)
-  p = link_to 'Ask Question', new_question_path
-.questions_list
-  ul
-    - @questions.each do |question|
-      li= link_to question.title, question
+- cache_unless user_signed_in?, collection_cache_key_for(Question) do
+  - if can?(:create, Question)
+    p = link_to 'Ask Question', new_question_path
+  .questions_list
+    ul
+      - @questions.each do |question|
+        li= link_to question.title, question
 
 = subscribe_to "/questions"

@@ -1,44 +1,45 @@
-div id="answer-#{ answer.id }" class="answer" 
-  .answer_body 
-    - if answer.persisted?
-      - if answer.best?
-        p Best Answer
-      p
-        = answer.body
-      h4 Attachments:
-      ul
-        - answer.attachments.each do |a|
-          = render 'attachments/attachment', attachment: a
-      h4 Comments:
-      .answer_comments
+- cache_unless user_signed_in?, answer do
+  div id="answer-#{ answer.id }" class="answer" 
+    .answer_body 
+      - if answer.persisted?
+        - if answer.best?
+          p Best Answer
+        p
+          = answer.body
+        h4 Attachments:
         ul
-          = render answer.comments.order(created_at: :asc)
-      .answer_comment_form
-        = render 'comments/form', commentable: answer
+          - answer.attachments.each do |a|
+            = render 'attachments/attachment', attachment: a
+        h4 Comments:
+        .answer_comments
+          ul
+            = render answer.comments
+        .answer_comment_form
+          = render 'comments/form', commentable: answer
 
-      h4 Rating for Answer:
-      .answer_votes
-        = render 'votes/score', votable: answer
-      .answer_votesbuttons 
-        = render 'votes/buttons', votable: answer
-      .answer_links
-        - if can?(:best_answer, answer)
-          -unless answer.best?
-            p= link_to 'Accept as the best Answer', best_answer_path(answer), remote: true, method: :patch 
-        - if can?(:modify, answer)
-          p= link_to 'Delete Answer', answer, :authenticity_token => form_authenticity_token(), remote: true, method: :delete, data: { confirm: 'Are You sure?' }
-          p= link_to 'Edit Answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-          p
-            = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-              = f.label :body, "Answer"
-              .answer-edit-errors
-              = f.text_area :body
-              p Attachments:
-              p
-                .links
-                  = link_to_add_association 'Add Attachment', f, :attachments, 
-                  partial: 'attachments/fields'
-              p= f.submit 'Save'    
+        h4 Rating for Answer:
+        .answer_votes
+          = render 'votes/score', votable: answer
+        .answer_votesbuttons 
+          = render 'votes/buttons', votable: answer
+        .answer_links
+          - if can?(:best_answer, answer)
+            -unless answer.best?
+              p= link_to 'Accept as the best Answer', best_answer_path(answer), remote: true, method: :patch 
+          - if can?(:modify, answer)
+            p= link_to 'Delete Answer', answer, :authenticity_token => form_authenticity_token(), remote: true, method: :delete, data: { confirm: 'Are You sure?' }
+            p= link_to 'Edit Answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+            p
+              = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+                = f.label :body, "Answer"
+                .answer-edit-errors
+                = f.text_area :body
+                p Attachments:
+                p
+                  .links
+                    = link_to_add_association 'Add Attachment', f, :attachments, 
+                    partial: 'attachments/fields'
+                p= f.submit 'Save'    
 
 
 
